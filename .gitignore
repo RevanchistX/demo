@@ -40,7 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# sqlite database
-*.db
+# sqlite database — the demo db (sqlite.db) is committed on purpose; only
+# ignore the transient WAL/SHM sidecar files.
 *.db-shm
 *.db-wal
