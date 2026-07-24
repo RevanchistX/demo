@@ -4,8 +4,8 @@ import { db } from "@/db";
 import * as schema from "@/db/schema";
 
 export const auth = betterAuth({
-  // Drizzle ORM over a local SQLite database. Swap the driver/provider in
-  // src/db/index.ts and drizzle.config.ts to move to Postgres/MySQL.
+  // Drizzle ORM over libSQL (Turso in prod, a local file in dev). libSQL is
+  // SQLite-dialect, so the provider stays "sqlite".
   database: drizzleAdapter(db, {
     provider: "sqlite",
     schema,

@@ -1,12 +1,13 @@
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import Database from "better-sqlite3";
-import path from "node:path";
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
 import * as schema from "./schema";
 
-// Resolve against the project root so the path is stable regardless of where
-// the bundled server chunk executes from (dev/turbopack vs. next start).
-const dbPath = process.env.DATABASE_URL ?? path.join(process.cwd(), "sqlite.db");
+// libSQL client. In production set TURSO_DATABASE_URL (+ TURSO_AUTH_TOKEN) to a
+// Turso database; locally it falls back to a plain file so no cloud account is
+// needed for development.
+const client = createClient({
+  url: process.env.TURSO_DATABASE_URL ?? "file:./local.db",
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
 
-const sqlite = new Database(dbPath);
-
-export const db = drizzle(sqlite, { schema });
+export const db = drizzle(client, { schema });
